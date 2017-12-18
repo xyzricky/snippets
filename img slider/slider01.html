@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.animation075{
+				transition: all 0.75s ease-in-out;
+				-webkit-transition: all 0.75s ease-in-out;
+				-moz-transition: all 0.75s ease-in-out;
+				-o-transition: all 0.75s ease-in-out;
+			}
+			#indexSliderWrapper{
+				width:100%;
+				position: relative;
+				height:300px;
+				overflow: hidden;
+			}
+			#indexSliderWrapper > img{
+				width:100%;
+				height: inherit;
+				object-fit: cover;
+				position: absolute;
+				z-index: -1;
+				left:0;
+				top:0;
+			}
+		</style>
+	</head>
+	<body>
+		<section id="indexSliderWrapper">
+			<img id="indexSliderImgContainer0"/>
+			<img id="indexSliderImgContainer1"/>
+		</section>
+
+
+		<script>
+			function _(e){
+				return document.getElementById(e);
+			};
+
+			////////////// main index slider animation ////////////////
+			var imgCount, 
+				timeInterval,
+				currentImg,
+				nextImg,
+				imgArray;
+
+			// assign some variable accrodingly 
+			function loadIndexSlider(){
+				imgCount = 0;
+				timeInterval = 5000;
+				currentImg = _('indexSliderImgContainer0');
+				nextImg = _('indexSliderImgContainer1');
+				imgArray = [0,1,2,3]; // this represent the name of the image (/images/img0.jpg)
+
+				loadIndexSlider01();
+			}
+
+			// this function is responsible to change image every [timeInterval].
+			function loadIndexSlider01(){
+
+				currentImg.style.zIndex = 1;
+				currentImg.src = 'images/img' + imgArray[imgCount] + '.jpg';
+
+				if(imgCount < imgArray.length - 1){
+					nextImg.src = 'images/img' + imgArray[imgCount+1] + '.jpg';
+					imgCount++;
+				}else{
+					setTimeout(function(){
+						currentImg.src = 'images/img' + imgArray[imgCount] + '.jpg';
+						imgCount = 0;
+						nextImg.src = 'images/img' + imgArray[imgCount] + '.jpg';
+						currentImg.className = 'animation075';
+						currentImg.style.left = '-' + window.innerWidth + 'px';
+					}, timeInterval);
+				};
+
+				setTimeout(function(){
+					currentImg.className = 'animation075';
+					currentImg.style.left = '-' + window.innerWidth + 'px';
+					setTimeout(function(){
+						currentImg.className = '';
+						currentImg.style.left = '0px';
+						loadIndexSlider01();
+					}, 750);
+				}, timeInterval);
+
+			};
+
+			window.onload = loadIndexSlider;
+		</script>
+	</body>
+</html>
